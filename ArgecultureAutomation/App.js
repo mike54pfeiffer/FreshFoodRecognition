@@ -1,114 +1,39 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow
- */
+import React, {Component} from 'react';
+import {Platform, StyleSheet, Text, View, TouchableOpacity, Switch, Image} from 'react-native';
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
+import MapView, {Marker} from 'react-native-maps';
+import PubNubReact from 'pubnub-react';
 
-import React from 'react';
-import {
-  SafeAreaView,
-  StyleSheet,
-  ScrollView,
-  View,
-  Text,
-  StatusBar,
-} from 'react-native';
+constructor(props)
+{
+  super(props);
+  this.pubnub = new PubNubReact({
+    publishKey: "pub-c-fd73ae8e-d33b-486a-9bd5-14bd887db05d",
+    subscribeKey: "sub-c-5e77b26a-4586-11ea-afa6-0abb81b5425e"
+  });
+  this.pubnub.init(this);
+}
 
-import {
-  Header,
-  LearnMoreLinks,
-  Colors,
-  DebugInstructions,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
-
-const App: () => React$Node = () => {
-  return (
-    <>
-      <StatusBar barStyle="dark-content" />
-      <SafeAreaView>
-        <ScrollView
-          contentInsetAdjustmentBehavior="automatic"
-          style={styles.scrollView}>
-          <Header />
-          {global.HermesInternal == null ? null : (
-            <View style={styles.engine}>
-              <Text style={styles.footer}>Engine: Hermes</Text>
-            </View>
-          )}
-          <View style={styles.body}>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Stedshfgsjhfp</Text>
-              <Text style={styles.sectionDescription}>
-                Edit <Text style={styles.highlight}>App.js</Text> to change this
-                screen and then come back to see your edits.
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>See Your Changes</Text>
-              <Text style={styles.sectionDescription}>
-                <ReloadInstructions />
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Debugiusgdjhgf</Text>
-              <Text style={styles.sectionDescription}>
-                <DebugInstructions />
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Learn More</Text>
-              <Text style={styles.sectionDescription}>
-                Read the docs to discover what to do next:
-              </Text>
-            </View>
-            <LearnMoreLinks />
-          </View>
-        </ScrollView>
-      </SafeAreaView>
-    </>
-  );
-};
-
-const styles = StyleSheet.create({
-  scrollView: {
-    backgroundColor: Colors.lighter,
-  },
-  engine: {
-    position: 'absolute',
-    right: 0,
-  },
-  body: {
-    backgroundColor: Colors.white,
-  },
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-    color: Colors.black,
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-    color: Colors.dark,
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-  footer: {
-    color: Colors.dark,
-    fontSize: 12,
-    fontWeight: '600',
-    padding: 4,
-    paddingRight: 12,
-    textAlign: 'right',
-  },
-});
-
-export default App;
+constructor(props)
+{
+  super(props);
+  this.pubnub = new PubNubReact({
+    publishKey: "pub-c-fd73ae8e-d33b-486a-9bd5-14bd887db05d",
+    subscribeKey: "sub-c-5e77b26a-4586-11ea-afa6-0abb81b5425e"
+  });
+  //Base State
+  this.state = {
+    currentLoc: { //Track user's current location
+      latitude: -1,
+      longitude: -1
+      },
+    numUsers: 0, //track number of users on the app
+    username: "A Naughty Moose", //user's username
+    fixedOnUUID: "",
+    focusOnMe: false, //zoom map to user's current location if true
+    users: new Map(), //store data of each user in a Map
+    isFocused: false, 
+    allowGPS: true, //toggle the app's ability to gather GPS data of the user
+  };
+  this.pubnub.init(this);
+}
